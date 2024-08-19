@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Using Google API to Create Multiple Maps with an Array of Markers</title>
+    <style>
+        .map-container{
+            width: 800px;
+            height: 400px;
+            padding: 20px;
+            margin: 20px;
+            border: 2px solid #000;
+        }
+        /* Set the size of the map */
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Using Google API to Create Multiple Maps with an Array of Markers</h1>
+    <div class="map-container">
+        <div id="map"></div>
+    </div>
+    <script>
+        (g => {
+            var h, a, k, p = "The Google Maps JavaScript API",
+                c = "google",
+                l = "importLibrary",
+                q = "__ib__",
+                m = document,
+                b = window;
+            b = b[c] || (b[c] = {});
+            var d = b.maps || (b.maps = {}),
+                r = new Set,
+                e = new URLSearchParams,
+                u = () => h || (h = new Promise(async (f, n) => {
+                    await (a = m.createElement("script"));
+                    e.set("libraries", [...r] + "");
+                    for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+                    e.set("callback", c + ".maps." + q);
+                    a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+                    d[q] = f;
+                    a.onerror = () => h = n(Error(p + " could not load."));
+                    a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+                    m.head.append(a)
+                }));
+            d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() =>
+                d[l](f, ...n))
+        })({
+            key: "AIzaSyByfXuuwxOIaWlefhSxqrVL9u5JhMweF-0",
+            v: "weekly",
+            // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+            // Add other bootstrap parameters as needed, using camel case.
+        });
+    </script>
+    <script>
+        // Array of locations (latitude and longitude)
+        const locations = [
+            {lat: 23.810331, lng: 90.412521,title:'Dhaka'}, // Dhaka
+            {lat: 22.356851, lng: 91.783182,title:'Chittagong'}, // Chittagong
+            {lat: 24.894930, lng: 91.868706,title:'Sylhet'}, // Sylhet
+            {lat: 24.374500, lng: 88.604220,title:'Rajshahi'}, // Rajshahi
+            {lat: 22.845641, lng: 89.540328,title:'Barisal'}, // Barisal
+            {lat: 22.701002, lng: 90.353455,title:'Barisal'}, // Barisal
+            {lat: 25.743892, lng: 89.275227,title:'Rangpur'}, // Rangpur
+            {lat: 23.458274, lng: 91.180911,title:'Comilla'}, // Comilla
+            {lat: 21.427229, lng: 92.005806,title:'Cox\'s Bazar'}, // Cox's Bazar
+        ];
+
+
+        // Initialize and add the map
+        let map;
+
+        async function initMap() {
+            // Center the map on the first location in the array
+            const mapCenter = {lat: locations[0].lat, lng: locations[0].lng};
+            // Request needed libraries.
+            const {Map} = await google.maps.importLibrary("maps");
+            const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
+
+            // The map, centered at Uluru
+            map = new Map(document.getElementById("map"), {
+                zoom: 6,
+                center: mapCenter,
+                mapId: "DEMO_MAP_ID",
+            });
+
+        // Add advanced markers to the map for each location
+        locations.forEach(location => {
+            const marker = new AdvancedMarkerElement({
+                position: location,
+                map: map,
+                title: location?.title || "", // Optional: Add a title to the marker
+            });
+        });
+        }
+
+        initMap();
+    </script>
+
+</body>
+
+</html>
