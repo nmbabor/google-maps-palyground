@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Using Google API to Create Multiple Maps with an Array of Markers</title>
+    <link rel="shortcut icon" href="./assets/google-maps.png" type="image/x-icon">
+    <title>Multiple Maps Markers</title>
     <style>
         .map-container{
             width: 800px;
@@ -19,16 +19,20 @@
             height: 100%;
             width: 100%;
         }
-
-        html,
-        body {
-            margin: 0;
-            padding: 0;
+        a{
+            text-decoration: none;
         }
+        .button{
+            padding: 5px;
+            border: 1px solid #ddd;
+            background-color: #eee;
+        }
+
     </style>
 </head>
 
 <body>
+    <a class="button" href="./index.html"> &leftarrow; Back to Home </a>
     <h1>Using Google API to Create Multiple Maps with an Array of Markers</h1>
     <div class="map-container">
         <div id="map"></div>
